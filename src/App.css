@@ -1,353 +1,321 @@
-*, *::before, *::after {
-  box-sizing: border-box;
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
-html, body, #root {
-  height: 100%;
-  font-family: system-ui, -apple-system, sans-serif;
-  font-size: 14px;
-  color: #1a1a1a;
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
 }
-
-/* ─── Layout ─────────────────────────────────────────────────── */
 
 .app {
   display: flex;
-  flex-direction: column;
-  height: 100%;
+  height: 100vh;
+  width: 100vw;
 }
 
-.topbar {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 16px;
-  background: #1a1a2e;
-  color: white;
-  border-bottom: 1px solid #333;
-  flex-shrink: 0;
-  min-height: 52px;
-}
-
-.app-title {
-  font-size: 17px;
-  font-weight: 600;
-  white-space: nowrap;
-  letter-spacing: -0.02em;
-}
-
-.variable-list {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  flex: 1;
-}
-
-.main {
-  display: flex;
-  flex: 1;
-  min-height: 0;
-}
-
-.map-panel {
-  flex: 1;
-  min-width: 0;
-  position: relative;
-}
-
-.chart-panel {
-  width: 400px;
-  flex-shrink: 0;
-  border-left: 1px solid #e0e0e0;
+/* Sidebar */
+.sidebar {
+  width: 320px;
+  min-width: 320px;
+  background: #fff;
+  border-right: 1px solid #e0e0e0;
+  padding: 20px;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  padding: 16px;
-  background: #fafafa;
+  gap: 20px;
 }
 
-/* ─── Variable chips ─────────────────────────────────────────── */
-
-.variable-chip {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(79, 142, 247, 0.2);
-  border: 1px solid #4f8ef7;
-  border-radius: 16px;
-  padding: 3px 8px 3px 12px;
-  font-size: 12px;
-  color: white;
+.sidebar h2 {
+  font-size: 1.4rem;
+  color: #1a1a2e;
+  border-bottom: 2px solid #253494;
+  padding-bottom: 8px;
 }
 
-.chip-remove {
-  background: none;
-  border: none;
-  color: rgba(255, 255, 255, 0.6);
-  cursor: pointer;
-  font-size: 18px;
-  line-height: 1;
-  padding: 0;
-  display: flex;
-  align-items: center;
-}
-
-.chip-remove:hover {
-  color: white;
-}
-
-/* ─── Custom legend ──────────────────────────────────────────── */
-
-.custom-legend {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  background: white;
-  border-radius: 8px;
-  padding: 10px 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
-  min-width: 260px;
-  max-width: 340px;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  border-radius: 6px;
-  padding: 4px 2px;
-}
-
-.legend-item:hover {
-  background: #f5f7ff;
-}
-
-.legend-item--hidden {
-  opacity: 0.45;
-}
-
-.legend-radio {
-  font-size: 14px;
-  color: #4f8ef7;
-  flex-shrink: 0;
-  line-height: 1;
-  user-select: none;
-}
-
-.legend-ramp {
-  display: flex;
-  gap: 1px;
-  flex-shrink: 0;
-}
-
-.legend-swatch {
-  width: 14px;
-  height: 14px;
-  border-radius: 2px;
-}
-
-.legend-label {
-  flex: 1;
-  font-size: 14px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: #222;
-}
-
-.legend-remove {
-  background: none;
-  border: none;
-  color: #bbb;
-  cursor: pointer;
-  font-size: 17px;
-  line-height: 1;
-  padding: 0;
-  flex-shrink: 0;
-}
-
-.legend-remove:hover {
-  color: #444;
-}
-
-/* ─── Scatterplot panel ──────────────────────────────────────── */
-
-.scatterplot-panel {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  gap: 14px;
-}
-
-.axis-selectors {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  flex-shrink: 0;
-}
-
-.axis-selectors label {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-size: 12px;
-  font-weight: 600;
-  color: #555;
+.sidebar h3 {
+  font-size: 0.9rem;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
+  color: #666;
+  margin-bottom: 8px;
 }
 
-.axis-selectors select {
-  padding: 7px 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 13px;
-  background: white;
-  color: #1a1a1a;
-}
-
-.chart-area {
+/* Map area (map + overlay container) */
+.map-area {
   flex: 1;
-  min-height: 0;
+  position: relative;
+  height: 100%;
+}
+
+.map-container {
+  width: 100%;
+  height: 100%;
+}
+
+.map-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Scatterplot overlay */
+.scatterplot-overlay {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  padding: 10px 10px 4px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+  z-index: 10;
+}
+
+.scatter-geo-tabs {
   display: flex;
-  align-items: stretch;
+  gap: 4px;
+  margin-bottom: 8px;
 }
 
-.empty-state {
+.scatter-geo-tab {
   flex: 1;
+  padding: 4px 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border: 1.5px solid #d0d0d0;
+  border-radius: 4px;
+  background: #fff;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.scatter-geo-tab:hover:not(:disabled) {
+  border-color: #2c7fb8;
+  color: #2c7fb8;
+}
+
+.scatter-geo-tab.active {
+  border-color: #253494;
+  background: #253494;
+  color: #fff;
+}
+
+.scatter-geo-tab:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.scatter-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.scatter-controls label {
   display: flex;
   align-items: center;
-  justify-content: center;
-  color: #aaa;
-  font-size: 13px;
-  text-align: center;
-  padding: 16px;
-  line-height: 1.5;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #555;
 }
 
-/* ─── Buttons ────────────────────────────────────────────────── */
+.scatter-controls select {
+  font-size: 0.75rem;
+  padding: 2px 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-width: 120px;
+}
 
-.btn-primary {
-  padding: 8px 16px;
-  background: #4f8ef7;
-  color: white;
-  border: none;
+.scatter-count {
+  font-size: 0.7rem;
+  color: #999;
+  text-align: right;
+  margin-bottom: 2px;
+}
+
+.scatter-svg {
+  display: block;
+}
+
+/* Geography Picker */
+.geo-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.geo-button {
+  flex: 1;
+  padding: 10px 12px;
+  border: 2px solid #e0e0e0;
   border-radius: 6px;
+  background: #fff;
   cursor: pointer;
-  font-size: 13px;
-  font-weight: 500;
-  white-space: nowrap;
-  flex-shrink: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #333;
+  transition: all 0.15s;
 }
 
-.btn-primary:hover:not(:disabled) {
-  background: #3a7de8;
+.geo-button:hover:not(:disabled) {
+  border-color: #2c7fb8;
+  color: #2c7fb8;
 }
 
-.btn-primary:disabled {
+.geo-button.selected {
+  border-color: #253494;
+  background: #253494;
+  color: #fff;
+}
+
+.geo-button:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
 
-.btn-secondary {
-  padding: 8px 16px;
-  background: white;
-  color: #444;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+/* Collapsible header */
+.collapsible-header {
   cursor: pointer;
-  font-size: 13px;
+  user-select: none;
 }
 
-.btn-secondary:hover {
-  background: #f5f5f5;
+.collapsible-header:hover {
+  color: #2c7fb8;
 }
 
-/* ─── Modal ──────────────────────────────────────────────────── */
-
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modal {
-  background: white;
-  border-radius: 10px;
-  padding: 24px;
-  width: 420px;
+/* Attribute Picker */
+.attr-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  gap: 4px;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 8px;
 }
 
-.modal h2 {
-  font-size: 17px;
+.attr-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.attr-item:hover {
+  color: #2c7fb8;
+}
+
+.add-button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  background: #253494;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
   font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
 }
 
-.modal label {
+.add-button:hover:not(:disabled) {
+  background: #2c7fb8;
+}
+
+.add-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Active Layers */
+.layer-list {
+  list-style: none;
   display: flex;
   flex-direction: column;
   gap: 6px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #333;
 }
 
-.modal select {
-  padding: 8px 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 13px;
-  color: #1a1a1a;
-}
-
-.modal-actions {
+.layer-item {
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  background: #f9f9f9;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  transition: border-color 0.15s;
+}
+
+.layer-item.active {
+  border-color: #253494;
+  background: #f0f4ff;
+}
+
+.layer-toggle {
+  display: flex;
+  align-items: center;
   gap: 8px;
-  margin-top: 4px;
+  cursor: pointer;
+  flex: 1;
+  min-width: 0;
 }
 
-/* ─── Misc ───────────────────────────────────────────────────── */
-
-.hint {
-  font-size: 13px;
-  color: #888;
+.layer-name {
+  font-size: 0.82rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.error {
-  font-size: 13px;
-  color: #d94040;
+.remove-button {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
 }
 
-.tooltip {
-  background: white;
+.remove-button:hover {
+  color: #e74c3c;
+}
+
+.muted {
+  color: #999;
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+/* Color Ramp Legend */
+.color-ramp {
+  margin-top: 12px;
+  padding: 10px;
+  background: #f9f9f9;
   border: 1px solid #e0e0e0;
   border-radius: 6px;
-  padding: 8px 12px;
-  font-size: 13px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-  line-height: 1.6;
 }
 
-.tooltip-geoid {
+.color-ramp-bar {
+  height: 14px;
+  border-radius: 3px;
+  width: 100%;
+}
+
+.color-ramp-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 0.75rem;
+  color: #555;
   font-weight: 600;
-  font-size: 11px;
-  color: #888;
-  margin-bottom: 2px;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
 }

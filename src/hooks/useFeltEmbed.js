@@ -1,20 +1,35 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Felt } from '@feltmaps/js-sdk'
-import { useStore } from '../store/useStore'
+import { FELT_MAP_ID } from '../config'
 
-export function useFeltEmbed(mapId) {
+export function useFeltEmbed() {
   const containerRef = useRef(null)
+  const [felt, setFelt] = useState(null)
   const mountedRef = useRef(false)
-  const setFelt = useStore((s) => s.setFelt)
 
   useEffect(() => {
-    if (mountedRef.current || !containerRef.current) return
+    // Strict-mode-safe: skip the second mount in dev
+    if (mountedRef.current) return
     mountedRef.current = true
 
-    Felt.embed(containerRef.current, mapId, {
-      uiControls: { showLegend: false },
-    }).then(setFelt)
-  }, [mapId, setFelt])
+    let instance = null
 
-  return containerRef
+    async function embed() {
+      if (!containerRef.current) return
+
+      instance = await Felt.embed(containerRef.current, FELT_MAP_ID, {
+        uiControls: { showLegend: false },
+      })
+      setFelt(instance)
+    }
+
+    embed()
+
+    return () => {
+      // Cleanup not strictly needed since we guard with mountedRef,
+      // but keeps things tidy if the component fully unmounts
+    }
+  }, [])
+
+  return { felt, containerRef }
 }
