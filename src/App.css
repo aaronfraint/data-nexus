@@ -54,6 +54,7 @@ html, body, #root {
 .map-panel {
   flex: 1;
   min-width: 0;
+  position: relative;
 }
 
 .chart-panel {
@@ -94,6 +95,85 @@ html, body, #root {
 
 .chip-remove:hover {
   color: white;
+}
+
+/* ─── Custom legend ──────────────────────────────────────────── */
+
+.custom-legend {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: white;
+  border-radius: 8px;
+  padding: 10px 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  min-width: 260px;
+  max-width: 340px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 4px 2px;
+}
+
+.legend-item:hover {
+  background: #f5f7ff;
+}
+
+.legend-item--hidden {
+  opacity: 0.45;
+}
+
+.legend-radio {
+  font-size: 14px;
+  color: #4f8ef7;
+  flex-shrink: 0;
+  line-height: 1;
+  user-select: none;
+}
+
+.legend-ramp {
+  display: flex;
+  gap: 1px;
+  flex-shrink: 0;
+}
+
+.legend-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+}
+
+.legend-label {
+  flex: 1;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #222;
+}
+
+.legend-remove {
+  background: none;
+  border: none;
+  color: #bbb;
+  cursor: pointer;
+  font-size: 17px;
+  line-height: 1;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.legend-remove:hover {
+  color: #444;
 }
 
 /* ─── Scatterplot panel ──────────────────────────────────────── */

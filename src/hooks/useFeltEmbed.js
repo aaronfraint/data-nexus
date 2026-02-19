@@ -11,7 +11,9 @@ export function useFeltEmbed(mapId) {
     if (mountedRef.current || !containerRef.current) return
     mountedRef.current = true
 
-    Felt.embed(containerRef.current, mapId).then(setFelt)
+    Felt.embed(containerRef.current, mapId, {
+      uiControls: { showLegend: false },
+    }).then(setFelt)
   }, [mapId, setFelt])
 
   return containerRef

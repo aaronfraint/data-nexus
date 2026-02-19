@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { FeltMap } from './components/FeltMap'
 import { LayerBuilder } from './components/LayerBuilder'
+import { Legend } from './components/Legend'
 import { Scatterplot } from './components/Scatterplot'
 import { useStore } from './store/useStore'
 
 export default function App() {
   const felt = useStore((s) => s.felt)
   const variables = useStore((s) => s.variables)
-  const removeVariable = useStore((s) => s.removeVariable)
   const [showBuilder, setShowBuilder] = useState(false)
 
   return (
@@ -18,15 +18,8 @@ export default function App() {
           {variables.map((v) => (
             <div key={v.id} className="variable-chip">
               <span>
-                {v.layerName} / {v.attributeDisplayName}
+                {v.layerName}: {v.attributeDisplayName}
               </span>
-              <button
-                className="chip-remove"
-                onClick={() => removeVariable(v.id)}
-                title="Remove variable"
-              >
-                ×
-              </button>
             </div>
           ))}
         </div>
@@ -42,6 +35,7 @@ export default function App() {
       <main className="main">
         <div className="map-panel">
           <FeltMap />
+          <Legend />
         </div>
         <div className="chart-panel">
           <Scatterplot />

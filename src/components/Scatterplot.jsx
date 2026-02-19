@@ -22,9 +22,14 @@ export function Scatterplot() {
 
   const points = useMemo(() => {
     if (!xVar || !yVar) return []
-    return Object.entries(xVar.data)
+    console.log('[Scatterplot] all vars:', variables.map(v => `id=${v.id} attr=${v.attribute} dataSize=${Object.keys(v.data).length}`))
+    console.log('[Scatterplot] xVar id:', xVar.id, 'data size:', Object.keys(xVar.data).length)
+    console.log('[Scatterplot] yVar id:', yVar.id, 'data size:', Object.keys(yVar.data).length)
+    const result = Object.entries(xVar.data)
       .filter(([geoid]) => geoid in yVar.data)
       .map(([geoid, x]) => ({ geoid, x: Number(x), y: Number(yVar.data[geoid]) }))
+    console.log('[Scatterplot] matched points:', result.length)
+    return result
   }, [xVar, yVar])
 
   const canPlot = xVariableId && yVariableId && xVariableId !== yVariableId
