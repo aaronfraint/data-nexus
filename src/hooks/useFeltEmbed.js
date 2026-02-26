@@ -18,7 +18,7 @@ export function useFeltEmbed() {
       if (!containerRef.current) return
 
       instance = await Felt.embed(containerRef.current, FELT_MAP_ID, {
-        uiControls: { showLegend: false },
+        uiControls: { showLegend: false, cooperativeGestures: false },
       })
       setFelt(instance)
     }

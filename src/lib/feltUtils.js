@@ -40,10 +40,18 @@ export async function discoverReferenceLayers(felt, groupName) {
 /**
  * Get numeric attributes for a layer via its schema.
  */
+const HIDDEN_ATTRS = ['objectid', 'shape_area', 'shape_length', 'shape__area', 'shape__length', 'logrecno', 'vintage']
+
 export async function getNumericAttributes(felt, layerId) {
   const schema = await felt.getLayerSchema(layerId)
   if (!schema?.attributes) return []
-  return schema.attributes.filter((a) => a.type === 'numeric')
+  return schema.attributes.filter((a) => {
+    if (a.type !== 'numeric') return false
+    const name = (a.displayName || a.id).toLowerCase()
+    if (HIDDEN_ATTRS.includes(name)) return false
+    if (a.id.endsWith('_m10')) return false
+    return true
+  })
 }
 
 /**

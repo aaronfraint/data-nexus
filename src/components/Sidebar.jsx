@@ -90,6 +90,7 @@ export default function Sidebar({ felt, activeLayers, setActiveLayers, activeLay
         }
 
         let lastLayerId = null
+        const newLayerIds = []
 
         // Build GEOID → feature ID mapping (shared across all attrs from this source)
         const featureIdMap = {}
@@ -136,6 +137,7 @@ export default function Sidebar({ felt, activeLayers, setActiveLayers, activeLay
           console.log(`Style applied successfully for "${attr.id}"`)
 
           lastLayerId = newLayerId
+          newLayerIds.push(newLayerId)
 
           setActiveLayers((prev) => [
             ...prev,
@@ -153,9 +155,11 @@ export default function Sidebar({ felt, activeLayers, setActiveLayers, activeLay
           ])
         }
 
-        // Hide the source layer and all layers except the last one added
-        const allIds = activeLayers.map((l) => l.id)
-        const hideIds = [...allIds, selectedGeo.id]
+        // Hide the source layer, all previous layers, and all new layers except the last
+        const prevIds = activeLayers.map((l) => l.id)
+        const hideIds = [...prevIds, ...newLayerIds, selectedGeo.id].filter(
+          (id) => id !== lastLayerId
+        )
         await felt.setLayerVisibility({
           show: lastLayerId ? [lastLayerId] : [],
           hide: hideIds,
